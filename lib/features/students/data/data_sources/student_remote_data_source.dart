@@ -11,7 +11,7 @@ abstract class StudentRemoteDataSource {
   Future<List<StudentEntity>> fetchStudents();
   Future<List<StudentEntity>> fetchChecks();
 
-  Future<void> checkStudents({
+  Future<List<StudentEntity>> checkStudents({
     required CheckParams params,
   });
   Future<List<String>> getAbsences();
@@ -37,7 +37,7 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
   }
 
   @override
-  Future<void> checkStudents({
+  Future<List<StudentEntity>> checkStudents({
     required CheckParams params,
   }) async {
     String checkStudentRef = DatabaseReference.checkStudent(params.uid);
@@ -62,13 +62,21 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
       data: data,
     );
     if (params.check == "absences") {
-      await addStudentAbsence(params.uid);
+      await addStudentAbsence(
+        params.uid,
+        params.date,
+      );
     } else {
-      await removeStudentAbsence(params.uid);
+      await removeStudentAbsence(
+        params.uid,
+        params.date,
+      );
     }
+    final students = await fetchStudents();
+    return students;
   }
 
-  Future<void> addStudentAbsence(String studentId) async {
+  Future<void> addStudentAbsence(String studentId, String? date) async {
     String absenseStudentRef = DatabaseReference.absenseStudent(studentId);
     final today = DatabaseReference.today;
 
@@ -81,15 +89,20 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
       currentAbsences = data;
     }
 
-    if (!currentAbsences.contains(today)) {
-      currentAbsences.add(today);
+    if (!currentAbsences.contains(date)) {
+      currentAbsences.add(date ?? '');
       await Managers.realTimeDatabase
           .set(ref: absenseStudentRef, data: currentAbsences);
       Logger().i('Added $today to absences on ' ' in Firebase');
+    } else {
+      currentAbsences.remove(date);
+      await Managers.realTimeDatabase
+          .set(ref: absenseStudentRef, data: currentAbsences);
+      Logger().i('Removed $today from absences on ' ' in Firebase');
     }
   }
 
-  Future<void> removeStudentAbsence(String studentId) async {
+  Future<void> removeStudentAbsence(String studentId, String? date) async {
     final today = DatabaseReference.today;
     String absenseStudentRef = DatabaseReference.absenseStudent(studentId);
     final List<Object?> snapshot =
@@ -98,8 +111,8 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
     List<String> currentAbsences =
         snapshot.isNotEmpty ? snapshot.map((e) => e.toString()).toList() : [];
 
-    if (currentAbsences.contains(today)) {
-      currentAbsences.remove(today);
+    if (currentAbsences.contains(date)) {
+      currentAbsences.remove(date);
       await Managers.realTimeDatabase
           .set(ref: absenseStudentRef, data: currentAbsences);
       Logger().i('Removed $today from absences on ' ' in Firebase');

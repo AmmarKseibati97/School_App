@@ -24,6 +24,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
           fetchStudents: (event) async => await _fetchStudents(event, emit),
           checkStudent: (event) async => await _checkStudent(event, emit),
           fetchAbsences: (event) async => await _fetchAbsences(event, emit),
+          fetchChecks: (event) async => await _fetchChecks(event, emit),
         );
       },
     );
@@ -65,6 +66,29 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       },
       (r) {
         emit(const StudentState.statusCheked());
+      },
+    );
+  }
+
+  Future<void> _fetchChecks(
+      StudentEvent event, Emitter<StudentState> emit) async {
+    emit(const StudentState.absencesLoading());
+    final data = await getAbsencesUseCase();
+    data.fold(
+      (failure) {
+        emit(StudentState.absencesFailure(failure: failure));
+      },
+      (r) {
+        if (r.isEmpty) {
+          emit(const StudentState.absencesEmpty());
+        } else {
+          List<StudentEntity> uniqueStudents = students.toSet().toList();
+
+          absences = uniqueStudents.where((student) {
+            return r.contains(student.uid);
+          }).toList();
+          emit(StudentState.absencesFetched(absences: absences));
+        }
       },
     );
   }

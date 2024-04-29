@@ -7,6 +7,7 @@ import 'package:a_school_app/features/check/params/check_params.dart';
 import 'package:a_school_app/features/students/domain/entities/student_entity.dart';
 import 'package:a_school_app/features/students/presentation/bloc/student_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -20,6 +21,27 @@ class AbsenceView extends StatefulWidget {
 }
 
 class _AbsenceViewState extends State<AbsenceView> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider.value(
+        value: getIt<StudentBloc>()..add(StudentEvent.fetchStudents()),
+        child: AbsenceBody(
+          student: widget.student,
+        ));
+  }
+}
+
+class AbsenceBody extends StatefulWidget {
+  const AbsenceBody({super.key, this.student});
+  final StudentEntity? student;
+
+  @override
+  State<AbsenceBody> createState() => _AbsenceBodyState();
+}
+
+class _AbsenceBodyState extends State<AbsenceBody> {
+  List<Meeting> meetings = <Meeting>[];
+
   late final ValueNotifier<String?> absenceDate;
   @override
   void initState() {
@@ -56,17 +78,27 @@ class _AbsenceViewState extends State<AbsenceView> {
                 fontSize: 11.sp,
                 fontWeight: FontWeight.w700),
           ),
-          SfCalendar(
-            showNavigationArrow: true,
-            view: CalendarView.month,
-            onTap: (calendarTapDetails) {
-              absenceDate.value =
-                  calendarTapDetails.date?.toIso8601String().split('T').first;
+          BlocListener<StudentBloc, StudentState>(
+            listener: (context, state) {
+              state.maybeWhen(
+                orElse: () => null,
+                statusCheked: (students) {
+                  Navigator.of(context).pop();
+                },
+              );
             },
-            dataSource: MeetingDataSource(_getDataSource(widget.student!)),
-            monthViewSettings: const MonthViewSettings(
-                appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
-                agendaItemHeight: 0.1),
+            child: SfCalendar(
+              showNavigationArrow: true,
+              view: CalendarView.month,
+              onTap: (calendarTapDetails) {
+                absenceDate.value =
+                    calendarTapDetails.date?.toIso8601String().split('T').first;
+              },
+              dataSource: MeetingDataSource(_getDataSource(widget.student!)),
+              monthViewSettings: const MonthViewSettings(
+                  appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+                  agendaItemHeight: 0.1),
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(top: 15.h),
@@ -86,11 +118,21 @@ class _AbsenceViewState extends State<AbsenceView> {
                     fontWeight: FontWeight.w700),
               ),
               onPressed: () {
-                getIt<StudentBloc>().add(StudentEvent.checkStudent(
+                final date = DateTime.parse(absenceDate.value ?? '');
+
+                meetings.add(Meeting(
+                  'absence',
+                  DateTime(date.year, date.month, date.day),
+                  DateTime(date.year, date.month, date.day)
+                      .add(const Duration(days: 0)),
+                  Colors.red,
+                  true,
+                ));
+                context.read<StudentBloc>().add(StudentEvent.checkStudent(
                     params: CheckParams(
-                  uid: widget.student?.uid ?? '',
-                  check: ChecksType.absences.name,
-                )));
+                        uid: widget.student?.uid ?? '',
+                        check: ChecksType.absences.name,
+                        date: absenceDate.value)));
               },
             ),
           ),
@@ -100,8 +142,6 @@ class _AbsenceViewState extends State<AbsenceView> {
   }
 
   List<Meeting> _getDataSource(StudentEntity studentEntity) {
-    List<Meeting> meetings = <Meeting>[];
-
     meetings = studentEntity.absenceDates.map((e) {
       final date = DateTime.parse(e);
 

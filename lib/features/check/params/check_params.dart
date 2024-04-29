@@ -1,10 +1,12 @@
 class CheckParams {
   final String uid;
   final String check;
+  final String? date;
 
   CheckParams({
     required this.uid,
     required this.check,
+    this.date,
   });
   final String dateTime = DateTime.now().toIso8601String();
 

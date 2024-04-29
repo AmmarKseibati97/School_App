@@ -1,5 +1,6 @@
 import 'package:a_school_app/core/error/failure.dart';
 import 'package:a_school_app/features/check/params/check_params.dart';
+import 'package:a_school_app/features/students/domain/entities/student_entity.dart';
 import 'package:a_school_app/features/students/domain/repositories/student_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -10,7 +11,7 @@ class CheckStudentsUseCase {
 
   final StudentDomainRepository repository;
 
-  Future<Either<Failure, void>> call({
+  Future<Either<Failure, List<StudentEntity>>> call({
     required CheckParams params,
   }) {
     return repository.checkStudents(

@@ -1835,6 +1835,7 @@ mixin _$StudentEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchStudents,
+    required TResult Function() fetchChecks,
     required TResult Function(CheckParams params) checkStudent,
     required TResult Function() fetchAbsences,
   }) =>
@@ -1842,6 +1843,7 @@ mixin _$StudentEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchStudents,
+    TResult? Function()? fetchChecks,
     TResult? Function(CheckParams params)? checkStudent,
     TResult? Function()? fetchAbsences,
   }) =>
@@ -1849,6 +1851,7 @@ mixin _$StudentEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchStudents,
+    TResult Function()? fetchChecks,
     TResult Function(CheckParams params)? checkStudent,
     TResult Function()? fetchAbsences,
     required TResult orElse(),
@@ -1857,6 +1860,7 @@ mixin _$StudentEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchStudents value) fetchStudents,
+    required TResult Function(_FetchChecks value) fetchChecks,
     required TResult Function(_CheckStudent value) checkStudent,
     required TResult Function(_FetchAbsences value) fetchAbsences,
   }) =>
@@ -1864,6 +1868,7 @@ mixin _$StudentEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchStudents value)? fetchStudents,
+    TResult? Function(_FetchChecks value)? fetchChecks,
     TResult? Function(_CheckStudent value)? checkStudent,
     TResult? Function(_FetchAbsences value)? fetchAbsences,
   }) =>
@@ -1871,6 +1876,7 @@ mixin _$StudentEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchStudents value)? fetchStudents,
+    TResult Function(_FetchChecks value)? fetchChecks,
     TResult Function(_CheckStudent value)? checkStudent,
     TResult Function(_FetchAbsences value)? fetchAbsences,
     required TResult orElse(),
@@ -1935,6 +1941,7 @@ class _$FetchStudentsImpl implements _FetchStudents {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchStudents,
+    required TResult Function() fetchChecks,
     required TResult Function(CheckParams params) checkStudent,
     required TResult Function() fetchAbsences,
   }) {
@@ -1945,6 +1952,7 @@ class _$FetchStudentsImpl implements _FetchStudents {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchStudents,
+    TResult? Function()? fetchChecks,
     TResult? Function(CheckParams params)? checkStudent,
     TResult? Function()? fetchAbsences,
   }) {
@@ -1955,6 +1963,7 @@ class _$FetchStudentsImpl implements _FetchStudents {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchStudents,
+    TResult Function()? fetchChecks,
     TResult Function(CheckParams params)? checkStudent,
     TResult Function()? fetchAbsences,
     required TResult orElse(),
@@ -1969,6 +1978,7 @@ class _$FetchStudentsImpl implements _FetchStudents {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchStudents value) fetchStudents,
+    required TResult Function(_FetchChecks value) fetchChecks,
     required TResult Function(_CheckStudent value) checkStudent,
     required TResult Function(_FetchAbsences value) fetchAbsences,
   }) {
@@ -1979,6 +1989,7 @@ class _$FetchStudentsImpl implements _FetchStudents {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchStudents value)? fetchStudents,
+    TResult? Function(_FetchChecks value)? fetchChecks,
     TResult? Function(_CheckStudent value)? checkStudent,
     TResult? Function(_FetchAbsences value)? fetchAbsences,
   }) {
@@ -1989,6 +2000,7 @@ class _$FetchStudentsImpl implements _FetchStudents {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchStudents value)? fetchStudents,
+    TResult Function(_FetchChecks value)? fetchChecks,
     TResult Function(_CheckStudent value)? checkStudent,
     TResult Function(_FetchAbsences value)? fetchAbsences,
     required TResult orElse(),
@@ -2002,6 +2014,120 @@ class _$FetchStudentsImpl implements _FetchStudents {
 
 abstract class _FetchStudents implements StudentEvent {
   const factory _FetchStudents() = _$FetchStudentsImpl;
+}
+
+/// @nodoc
+abstract class _$$FetchChecksImplCopyWith<$Res> {
+  factory _$$FetchChecksImplCopyWith(
+          _$FetchChecksImpl value, $Res Function(_$FetchChecksImpl) then) =
+      __$$FetchChecksImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FetchChecksImplCopyWithImpl<$Res>
+    extends _$StudentEventCopyWithImpl<$Res, _$FetchChecksImpl>
+    implements _$$FetchChecksImplCopyWith<$Res> {
+  __$$FetchChecksImplCopyWithImpl(
+      _$FetchChecksImpl _value, $Res Function(_$FetchChecksImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$FetchChecksImpl implements _FetchChecks {
+  const _$FetchChecksImpl();
+
+  @override
+  String toString() {
+    return 'StudentEvent.fetchChecks()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FetchChecksImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchStudents,
+    required TResult Function() fetchChecks,
+    required TResult Function(CheckParams params) checkStudent,
+    required TResult Function() fetchAbsences,
+  }) {
+    return fetchChecks();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchStudents,
+    TResult? Function()? fetchChecks,
+    TResult? Function(CheckParams params)? checkStudent,
+    TResult? Function()? fetchAbsences,
+  }) {
+    return fetchChecks?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchStudents,
+    TResult Function()? fetchChecks,
+    TResult Function(CheckParams params)? checkStudent,
+    TResult Function()? fetchAbsences,
+    required TResult orElse(),
+  }) {
+    if (fetchChecks != null) {
+      return fetchChecks();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FetchStudents value) fetchStudents,
+    required TResult Function(_FetchChecks value) fetchChecks,
+    required TResult Function(_CheckStudent value) checkStudent,
+    required TResult Function(_FetchAbsences value) fetchAbsences,
+  }) {
+    return fetchChecks(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FetchStudents value)? fetchStudents,
+    TResult? Function(_FetchChecks value)? fetchChecks,
+    TResult? Function(_CheckStudent value)? checkStudent,
+    TResult? Function(_FetchAbsences value)? fetchAbsences,
+  }) {
+    return fetchChecks?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FetchStudents value)? fetchStudents,
+    TResult Function(_FetchChecks value)? fetchChecks,
+    TResult Function(_CheckStudent value)? checkStudent,
+    TResult Function(_FetchAbsences value)? fetchAbsences,
+    required TResult orElse(),
+  }) {
+    if (fetchChecks != null) {
+      return fetchChecks(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FetchChecks implements StudentEvent {
+  const factory _FetchChecks() = _$FetchChecksImpl;
 }
 
 /// @nodoc
@@ -2069,6 +2195,7 @@ class _$CheckStudentImpl implements _CheckStudent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchStudents,
+    required TResult Function() fetchChecks,
     required TResult Function(CheckParams params) checkStudent,
     required TResult Function() fetchAbsences,
   }) {
@@ -2079,6 +2206,7 @@ class _$CheckStudentImpl implements _CheckStudent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchStudents,
+    TResult? Function()? fetchChecks,
     TResult? Function(CheckParams params)? checkStudent,
     TResult? Function()? fetchAbsences,
   }) {
@@ -2089,6 +2217,7 @@ class _$CheckStudentImpl implements _CheckStudent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchStudents,
+    TResult Function()? fetchChecks,
     TResult Function(CheckParams params)? checkStudent,
     TResult Function()? fetchAbsences,
     required TResult orElse(),
@@ -2103,6 +2232,7 @@ class _$CheckStudentImpl implements _CheckStudent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchStudents value) fetchStudents,
+    required TResult Function(_FetchChecks value) fetchChecks,
     required TResult Function(_CheckStudent value) checkStudent,
     required TResult Function(_FetchAbsences value) fetchAbsences,
   }) {
@@ -2113,6 +2243,7 @@ class _$CheckStudentImpl implements _CheckStudent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchStudents value)? fetchStudents,
+    TResult? Function(_FetchChecks value)? fetchChecks,
     TResult? Function(_CheckStudent value)? checkStudent,
     TResult? Function(_FetchAbsences value)? fetchAbsences,
   }) {
@@ -2123,6 +2254,7 @@ class _$CheckStudentImpl implements _CheckStudent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchStudents value)? fetchStudents,
+    TResult Function(_FetchChecks value)? fetchChecks,
     TResult Function(_CheckStudent value)? checkStudent,
     TResult Function(_FetchAbsences value)? fetchAbsences,
     required TResult orElse(),
@@ -2183,6 +2315,7 @@ class _$FetchAbsencesImpl implements _FetchAbsences {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() fetchStudents,
+    required TResult Function() fetchChecks,
     required TResult Function(CheckParams params) checkStudent,
     required TResult Function() fetchAbsences,
   }) {
@@ -2193,6 +2326,7 @@ class _$FetchAbsencesImpl implements _FetchAbsences {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchStudents,
+    TResult? Function()? fetchChecks,
     TResult? Function(CheckParams params)? checkStudent,
     TResult? Function()? fetchAbsences,
   }) {
@@ -2203,6 +2337,7 @@ class _$FetchAbsencesImpl implements _FetchAbsences {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchStudents,
+    TResult Function()? fetchChecks,
     TResult Function(CheckParams params)? checkStudent,
     TResult Function()? fetchAbsences,
     required TResult orElse(),
@@ -2217,6 +2352,7 @@ class _$FetchAbsencesImpl implements _FetchAbsences {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FetchStudents value) fetchStudents,
+    required TResult Function(_FetchChecks value) fetchChecks,
     required TResult Function(_CheckStudent value) checkStudent,
     required TResult Function(_FetchAbsences value) fetchAbsences,
   }) {
@@ -2227,6 +2363,7 @@ class _$FetchAbsencesImpl implements _FetchAbsences {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FetchStudents value)? fetchStudents,
+    TResult? Function(_FetchChecks value)? fetchChecks,
     TResult? Function(_CheckStudent value)? checkStudent,
     TResult? Function(_FetchAbsences value)? fetchAbsences,
   }) {
@@ -2237,6 +2374,7 @@ class _$FetchAbsencesImpl implements _FetchAbsences {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FetchStudents value)? fetchStudents,
+    TResult Function(_FetchChecks value)? fetchChecks,
     TResult Function(_CheckStudent value)? checkStudent,
     TResult Function(_FetchAbsences value)? fetchAbsences,
     required TResult orElse(),

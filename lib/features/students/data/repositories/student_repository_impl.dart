@@ -24,7 +24,7 @@ class StudentRepositoryImpl implements StudentDomainRepository {
   }
 
   @override
-  Future<Either<Failure, void>> checkStudents(
+  Future<Either<Failure, List<StudentEntity>>> checkStudents(
       {required CheckParams params}) async {
     try {
       final result = await remoteDataSource.checkStudents(params: params);
