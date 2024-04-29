@@ -12,6 +12,6 @@ class AppColors {
   static Color red = Colors.red;
   static Color blue = Colors.blue;
   static Color black = Colors.black;
-
+  static Color studentCard = const Color(0xff271E5E);
   static Color grey = HexColor("#EEEEF2");
 }

@@ -1,4 +1,6 @@
+import 'package:a_school_app/core/service_locator/injection.dart';
 import 'package:a_school_app/core/utils/colors.dart';
+import 'package:a_school_app/features/students/presentation/bloc/student_bloc.dart';
 import 'package:flutter/material.dart';
 import '../../../../config/local/app_localizations.dart';
 import '../../../../core/utils/images.dart';
@@ -19,6 +21,13 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    // ChecksRemoteDataSourceImpl().checkStudents(
+    //   params: CheckParams(
+    //     uid: "S01",
+    //     check: true,
+    //     checkIn: DateTime.now(),
+    //   ),
+    // );
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.white,

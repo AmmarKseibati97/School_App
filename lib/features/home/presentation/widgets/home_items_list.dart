@@ -1,7 +1,6 @@
-import 'package:a_school_app/core/service_locator/injection.dart';
-import 'package:a_school_app/features/splash_screen/presentation/cubit/auth_cubit.dart';
+import 'package:a_school_app/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/local/app_localizations.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../core/utils/images.dart';
@@ -32,7 +31,7 @@ List<HomeItemModel> homeItems(BuildContext context) {
             Strings.translationError,
         icon: Images.logoutImage,
         onTap: () async {
-          await getIt<AuthCubit>().signOut();
+          context.read<AuthBloc>().add(const AuthEvent.signOut());
           Navigator.pushNamedAndRemoveUntil(context, Routes.login, (_) {
             return true;
           });

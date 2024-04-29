@@ -60,7 +60,7 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     widget.currentIndex == index ? color : Colors.transparent,
               ),
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 4.h),
+                padding: EdgeInsets.symmetric(vertical: 5.h),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,17 +72,16 @@ class CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                           widget.currentIndex == index ? Colors.white : color,
                     ),
                     Expanded(
-                     // flex: 2,
+                      // flex: 2,
                       child: Text(
                         label,
-                        overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: widget.currentIndex == index
                               ? Colors.white
                               : color,
-                          fontSize: 13.sp,
+                          fontSize: 12.sp,
                         ),
                       ),
                     )

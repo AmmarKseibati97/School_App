@@ -28,6 +28,10 @@ abstract class RealTimeDataBase {
     required dynamic data,
   });
 
+  Future<void> update({
+    required String ref,
+    required Map<String, dynamic> data,
+  });
   Future<T> performSearch<T>({
     required String ref,
     required String keyword,
@@ -131,5 +135,16 @@ class RealTimeDataBaseImpl implements RealTimeDataBase {
             message: 'No data found and expected type is not Map.');
       }
     }
+  }
+
+  @override
+  Future<void> update({
+    required String ref,
+    required Map<String, dynamic> data,
+  }) async {
+    Logger().i('Updating \n $data \n in Firebase with ref $ref');
+    await firebase.ref(ref).update(data);
+    Logger()
+        .i('✅✅✅✅ Updating \n $data \n in $ref Firebase completed successfully');
   }
 }

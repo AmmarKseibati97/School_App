@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/colors.dart';
 
-class CustomTextField extends StatelessWidget {
-  const CustomTextField(
+class CustomTextField extends StatefulWidget {
+  CustomTextField(
       {super.key,
       this.hint,
       this.controller,
@@ -16,10 +16,10 @@ class CustomTextField extends StatelessWidget {
       this.height,
       this.enabled,
       this.maxLines,
-      this.obscureText = false,
       this.suffixIcon,
       this.onChanged,
       this.focusNode,
+      this.isPassword = false,
       this.keyboardType,
       this.readOnly});
 
@@ -32,12 +32,19 @@ class CustomTextField extends StatelessWidget {
   final double? height;
   final bool? enabled;
   final int? maxLines;
-  final bool obscureText;
   final Widget? suffixIcon;
   final void Function(String)? onChanged;
   final FocusNode? focusNode;
   final TextInputType? keyboardType;
   final bool? readOnly;
+  final bool isPassword;
+
+  @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  bool obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -47,50 +54,63 @@ class CustomTextField extends StatelessWidget {
               horizontal: 8.w,
             ),
             child: Container(
-                width: width ?? context.width,
-                height: height,
+                width: widget.width ?? context.width,
+                height: widget.height,
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(7.h)),
                 child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: TextFormField(
-                        enabled: enabled ?? true,
-                        controller: controller,
+                        enabled: widget.enabled ?? true,
+                        controller: widget.controller,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
-                            errorStyle: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                  color:
-                                      AppColors.red, // Change text color here
-                                ),
-                            border: InputBorder.none,
-                            hintText: hint,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: AppColors.primary), // Normal state
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: AppColors.blue,
-                                  width: 2.w), // Focus state
-                            ),
-                            hintStyle: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(
-                                  color: AppColors
-                                      .primary, // Change text color here
-                                ),
-                            suffixIcon: suffixIcon),
-                        onSaved: onSaved,
-                        validator: validator,
-                        maxLines: obscureText == true ? 1 : maxLines,
-                        obscureText: obscureText,
-                        onChanged: onChanged,
-                        focusNode: focusNode,
-                        keyboardType: keyboardType,
-                        readOnly: readOnly ?? false)))));
+                          errorStyle: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                color: AppColors.red, // Change text color here
+                              ),
+                          border: InputBorder.none,
+                          hintText: widget.hint,
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: AppColors.primary), // Normal state
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: AppColors.blue,
+                                width: 2.w), // Focus state
+                          ),
+                          hintStyle: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(
+                                color:
+                                    AppColors.primary, // Change text color here
+                              ),
+                          suffixIcon: widget.isPassword
+                              ? IconButton(
+                                  icon: Icon(
+                                    Icons.visibility,
+                                    color: AppColors.primary,
+                                    size: 20.sp,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      obscureText = !obscureText;
+                                    });
+                                  },
+                                )
+                              : const Offstage(),
+                        ),
+                        onSaved: widget.onSaved,
+                        validator: widget.validator,
+                        maxLines: 1,
+                        obscureText: widget.isPassword ? obscureText : false,
+                        onChanged: widget.onChanged,
+                        focusNode: widget.focusNode,
+                        keyboardType: widget.keyboardType,
+                        readOnly: widget.readOnly ?? false)))));
   }
 }

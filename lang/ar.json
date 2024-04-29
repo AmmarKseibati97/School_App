@@ -25,5 +25,13 @@
   "my_day_activity": "نشاطي خلال اليوم",
   "exit_app": "خروج من التطبيق",
   "exit_app_content": "هل ترغب في الخروج من التطبيق؟",
-  "welcome_to_class": "مرحباً بك في صفك"
+  "welcome_to_class": "مرحباً بك في صفك",
+  "absences": "غياب",
+  "present": "حاضر",
+  "leave": "غادر",
+  "id": ":بطاقة تعريف",
+  "search_field_hint": "أدخل اسم الطالب",
+  "absent_on": ": غائب في",
+  "present_on": ": حاضر في",
+  "leave_on": ": غادر في"
 }

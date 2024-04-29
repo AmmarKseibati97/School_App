@@ -4,4 +4,6 @@ import 'package:dartz/dartz.dart';
 
 abstract class AuthDomainRepository {
   Future<Either<Failure, TeacherEntity>> login(String email, String password);
+  Future<Either<Failure, TeacherEntity?>> loadUser();
+  Future<Either<Failure, void>> signOut();
 }

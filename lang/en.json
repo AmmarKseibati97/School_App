@@ -25,5 +25,12 @@
   "my_day_activity": "My Day Activity",
   "exit_app": "Exit the app",
   "exit_app_content": "Want to exit the app?",
-  "welcome_to_class": "Welcome to your Class"
+  "absences": "Absences",
+  "present": "Present",
+  "leave": "Leave",
+  "id": "ID:",
+  "search_field_hint": "Enter the student’s name",
+  "absent_on": ": Absent on",
+  "present_on": ": Present on",
+  "leave_on": ": Leave on"
 }

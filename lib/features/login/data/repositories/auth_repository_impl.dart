@@ -21,4 +21,24 @@ class AuthRepositoryImpl implements AuthDomainRepository {
       return Left(e.toFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, TeacherEntity?>> loadUser() async {
+    try {
+      final result = await remoteDataSource.loadUser();
+      return Right(result);
+    } on Exception catch (e) {
+      return Left(e.toFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> signOut() async {
+    try {
+      final result = await remoteDataSource.signOut();
+      return Right(result);
+    } on Exception catch (e) {
+      return Left(e.toFailure());
+    }
+  }
 }

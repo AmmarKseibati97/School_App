@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'package:a_school_app/core/managers/manager.dart';
-import 'package:a_school_app/core/service_locator/injection.dart';
 import 'package:a_school_app/core/utils/colors.dart';
-import 'package:a_school_app/features/splash_screen/presentation/cubit/auth_cubit.dart';
+import 'package:a_school_app/features/login/data/data_sources/auth_remote_data_source.dart';
+import 'package:a_school_app/features/login/domain/entities/teacher_entity.dart';
+import 'package:a_school_app/features/login/presentation/bloc/auth_bloc.dart';
+import 'package:a_school_app/features/students/data/data_sources/student_remote_data_source.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../config/routes/routes.dart';
 import '../../../../core/utils/images.dart';
 
@@ -15,43 +17,55 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-  late Timer _timer;
+  late Timer timer;
+  late TeacherEntity? teacher;
 
-  void navigateToMainPage() {
-    print(" Managers.authCubit.teacher  ${Managers.authCubit.teacher}");
-    Navigator.pushReplacementNamed(
-      context,
-      Managers.authCubit.teacher == null ? Routes.login : Routes.home,
-    );
-  }
-
-  _startDelay() {
-    getIt<AuthCubit>().loadUser();
-    _timer = Timer(
+  void navigateToMainPage(TeacherEntity? teacher) {
+    timer = Timer(
         const Duration(
-          milliseconds: 200,
+          milliseconds: 700,
         ),
-        () => navigateToMainPage());
+        () => Navigator.pushReplacementNamed(
+              context,
+              teacher == null ? Routes.login : Routes.root,
+            ));
   }
 
   @override
   void initState() {
     super.initState();
-    _startDelay();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _timer.cancel();
   }
 
   @override
   Widget build(BuildContext context) {
+    // AuthRemoteDataSourceImpl().addStudentsWithAutoUID();
+    // AuthRemoteDataSourceImpl().pushAbsencesForApril2024();
+
     return Scaffold(
       backgroundColor: AppColors.primary,
-      body: Center(
-        child: Image.asset(Images.aSchoolImage),
+      body: BlocListener<AuthBloc, AuthState>(
+        listenWhen: (previous, current) {
+          if (current.runtimeType == const AuthState.userLoaded().runtimeType) {
+            return true;
+          }
+          return false;
+        },
+        listener: (context, state) {
+          state.maybeWhen(
+            orElse: () => const Offstage(),
+            userLoaded: (teacher) {
+              navigateToMainPage(teacher);
+            },
+          );
+        },
+        child: Center(
+          child: Image.asset(Images.aSchoolImage),
+        ),
       ),
     );
   }

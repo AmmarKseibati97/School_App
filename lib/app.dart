@@ -1,6 +1,7 @@
 import 'package:a_school_app/core/enums/enums.dart';
 import 'package:a_school_app/core/service_locator/injection.dart';
-import 'package:a_school_app/features/splash_screen/presentation/cubit/auth_cubit.dart';
+import 'package:a_school_app/features/login/presentation/bloc/auth_bloc.dart';
+import 'package:a_school_app/features/students/presentation/bloc/student_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'config/local/app_localizations_setup.dart';
@@ -31,7 +32,9 @@ class _ASchoolAppState extends State<ASchoolApp> {
               providers: [
                 BlocProvider(
                     create: (context) => getIt<LocaleCubit>()..getSavedLang()),
-                BlocProvider(create: (context) => getIt<AuthCubit>()),
+                BlocProvider(
+                    create: (context) =>
+                        getIt<AuthBloc>()..add(const AuthEvent.loadUser())),
               ],
               child: BlocBuilder<LocaleCubit, LocalState>(
                   buildWhen: (previousState, currentState) =>

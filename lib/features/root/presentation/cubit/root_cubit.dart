@@ -1,3 +1,4 @@
+import 'package:a_school_app/features/absence/presentation/view/absence_view.dart';
 import 'package:a_school_app/features/check/presentation/views/check_view.dart';
 import 'package:a_school_app/features/students/presentation/views/students_view.dart';
 import 'package:bloc/bloc.dart';
