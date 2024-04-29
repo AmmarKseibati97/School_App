@@ -12,8 +12,7 @@ class CheckParams {
     return {
       'checked_in_at': dateTime,
       'check_status': check,
-      'checked_out_at': 'init',
-      'leave_at': 'init',
+      'absence_at': 'init',
     };
   }
 
@@ -21,17 +20,14 @@ class CheckParams {
     return {
       'checked_out_at': dateTime,
       'check_status': check,
-      'checked_in_at': 'init',
-      'leave_at': 'init',
+      'absence_at': 'init',
     };
   }
 
-  Map<String, dynamic> leaveToMap() {
+  Map<String, dynamic> absenceToMap() {
     return {
-      'leave_at': dateTime,
+      'absence_at': dateTime,
       'check_status': check,
-      'checked_in_at': 'init',
-      'checked_out_at': 'init',
     };
   }
 }

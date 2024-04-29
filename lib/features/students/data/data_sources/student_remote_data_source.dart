@@ -39,14 +39,15 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
   Future<void> checkStudents({
     required CheckParams params,
   }) async {
-    String checkStudentRef = DatabaseReference.checkStudent(params.uid);
+    // String checkStudentRef = DatabaseReference.checkStudent(params.uid);
+    String checkStudentRef = DatabaseReference.checks(params.uid);
     Map<String, dynamic> data = {};
     final checkInMap = params.checkInToMap();
     final checkOutMap = params.checkOutToMap();
-    final leaveMap = params.leaveToMap();
+    final absencesMap = params.absenceToMap();
     switch (params.check) {
       case "absences":
-        data = leaveMap;
+        data = absencesMap;
 
       case "present":
         data = checkInMap;

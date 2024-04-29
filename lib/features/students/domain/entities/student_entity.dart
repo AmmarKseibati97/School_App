@@ -35,6 +35,6 @@ class StudentKeys {
   static const String checkStatus = 'check_status';
   static const String checkedInAt = 'checked_in_at';
   static const String checkedOutAt = 'checked_out_at';
-  static const String leaveAt = 'leave_at';
+  static const String leaveAt = 'absence_at';
   static const String absenceDates = 'absence_dates';
 }

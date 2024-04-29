@@ -137,7 +137,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             DateTime.now().subtract(const Duration(days: 1)).toIso8601String(),
         "checked_out_at":
             DateTime.now().subtract(const Duration(days: 1)).toIso8601String(),
-        "leave_at":
+        "absence_at":
             DateTime.now().subtract(const Duration(days: 1)).toIso8601String(),
         'absence_dates': dates,
       });

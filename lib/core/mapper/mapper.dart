@@ -109,7 +109,6 @@ class Mapper {
           try {
             result.add(fromJson(json));
           } catch (e) {
-            print(e);
             continue;
           }
         }
@@ -120,13 +119,10 @@ class Mapper {
               final Map<String, dynamic> value =
                   Map<String, dynamic>.from(entry.value);
               result.add(fromJson(value));
-            } catch (e) {
-              print("map error ${entry.key} ${entry.value} $e");
-            }
+            } catch (e) {}
           }
         }
       }
-      Logger().d('Mapping to list[${result.length}]  completed with $result');
       return result;
     } catch (e) {
       throw AppException(
