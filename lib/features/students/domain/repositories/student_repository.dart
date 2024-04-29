@@ -8,6 +8,7 @@ abstract class StudentDomainRepository {
   Future<Either<Failure, void>> checkStudents({
     required CheckParams params,
   });
+  Future<Either<Failure, List<StudentEntity>>> fetchChecks();
 
   Future<Either<Failure, List<String>>> getAbsences();
 }

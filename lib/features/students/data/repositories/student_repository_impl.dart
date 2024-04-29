@@ -43,4 +43,14 @@ class StudentRepositoryImpl implements StudentDomainRepository {
       return Left(e.toFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, List<StudentEntity>>> fetchChecks() async {
+    try {
+      final result = await remoteDataSource.fetchChecks();
+      return Right(result);
+    } on Exception catch (e) {
+      return Left(e.toFailure());
+    }
+  }
 }

@@ -6,12 +6,9 @@ import 'package:a_school_app/core/utils/strings.dart';
 import 'package:a_school_app/features/check/params/check_params.dart';
 import 'package:a_school_app/features/splash_screen/presentation/cubit/local_cubit.dart';
 import 'package:a_school_app/features/students/presentation/bloc/student_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart' hide TextDirection;
 
 class Checks extends StatefulWidget {
   const Checks({
@@ -55,7 +52,6 @@ class _ChecksState extends State<Checks> {
     return ValueListenableBuilder<String>(
       valueListenable: _isChecked,
       builder: (context, value, child) {
-        // Re-generate items each time the ValueListenableBuilder triggers a rebuild
         items = getItems();
         return Column(
           children: items,
@@ -97,6 +93,7 @@ class _ChecksState extends State<Checks> {
   List<Widget> getItems() {
     List<Widget> items = [];
     items.addAll(dataItems.map((e) {
+      final isShown = format(e.date) == format(widget.today);
       final showDate = e.status != ChecksType.absences.name
           ? formatDate(e.date)
           : format(e.date);
@@ -109,8 +106,7 @@ class _ChecksState extends State<Checks> {
             height: 24.h,
             decoration: BoxDecoration(
               color: e.backGroundColor,
-              borderRadius:
-                  BorderRadius.circular(4), // Optional: For rounded corners
+              borderRadius: BorderRadius.circular(4),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -134,17 +130,15 @@ class _ChecksState extends State<Checks> {
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       activeColor: Theme.of(context).colorScheme.primary,
                       value: e.status,
-                      groupValue: value,
+                      groupValue: isShown ? value : '',
                       onChanged: (String? newValue) {
                         if (newValue != null) {
                           setState(() {
                             _isChecked.value = newValue;
-                            // final currentIndex = dataItems
-                            //     .indexWhere((item) => item.status == value);
+
                             final elementIndex = dataItems
                                 .indexWhere((item) => item.status == newValue);
                             if (elementIndex != -1) {
-                              // dataItems[currentIndex].date = format('');
                               dataItems[elementIndex].date = widget.today;
                             }
                             context
@@ -175,7 +169,7 @@ class _ChecksState extends State<Checks> {
                     : TextDirection.ltr,
                 children: [
                   Text(
-                    format(e.date) == format(widget.today) ? showDate : '',
+                    isShown ? showDate : '',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: const Color(0xff4F5054),
                         fontSize: 11.sp,

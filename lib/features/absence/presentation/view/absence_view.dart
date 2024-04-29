@@ -1,8 +1,13 @@
 import 'package:a_school_app/config/local/app_localizations.dart';
+import 'package:a_school_app/core/enums/enums.dart';
+import 'package:a_school_app/core/service_locator/injection.dart';
 import 'package:a_school_app/core/utils/colors.dart';
 import 'package:a_school_app/core/utils/images.dart';
+import 'package:a_school_app/features/check/params/check_params.dart';
 import 'package:a_school_app/features/students/domain/entities/student_entity.dart';
+import 'package:a_school_app/features/students/presentation/bloc/student_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -15,6 +20,13 @@ class AbsenceView extends StatefulWidget {
 }
 
 class _AbsenceViewState extends State<AbsenceView> {
+  late final ValueNotifier<String?> absenceDate;
+  @override
+  void initState() {
+    super.initState();
+    absenceDate = ValueNotifier<String?>(null);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +60,8 @@ class _AbsenceViewState extends State<AbsenceView> {
             showNavigationArrow: true,
             view: CalendarView.month,
             onTap: (calendarTapDetails) {
-              calendarTapDetails.date?.toIso8601String().split('T').first;
+              absenceDate.value =
+                  calendarTapDetails.date?.toIso8601String().split('T').first;
             },
             dataSource: MeetingDataSource(_getDataSource(widget.student!)),
             monthViewSettings: const MonthViewSettings(
@@ -72,7 +85,13 @@ class _AbsenceViewState extends State<AbsenceView> {
                     fontSize: 20,
                     fontWeight: FontWeight.w700),
               ),
-              onPressed: () {},
+              onPressed: () {
+                getIt<StudentBloc>().add(StudentEvent.checkStudent(
+                    params: CheckParams(
+                  uid: widget.student?.uid ?? '',
+                  check: ChecksType.absences.name,
+                )));
+              },
             ),
           ),
         ],

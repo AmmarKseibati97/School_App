@@ -9,6 +9,7 @@ import 'package:logger/logger.dart';
 
 abstract class StudentRemoteDataSource {
   Future<List<StudentEntity>> fetchStudents();
+  Future<List<StudentEntity>> fetchChecks();
 
   Future<void> checkStudents({
     required CheckParams params,
@@ -21,10 +22,10 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
   @override
   Future<List<StudentEntity>> fetchStudents() async {
     String ref = DatabaseReference.students;
-    final snapshot = await Managers.realTimeDatabase.get(
+    final snapshot = await Managers.realTimeDatabase.get<Map>(
       ref,
     );
-    // if (snapshot.isEmpty) return [];
+    if (snapshot.isEmpty) return [];
     final students = Mapper.mapToListFromFirebaseSnapshot(
       snapshot: snapshot,
       fromJson: StudentModel.fromJson,
@@ -39,8 +40,8 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
   Future<void> checkStudents({
     required CheckParams params,
   }) async {
-    // String checkStudentRef = DatabaseReference.checkStudent(params.uid);
-    String checkStudentRef = DatabaseReference.checks(params.uid);
+    String checkStudentRef = DatabaseReference.checkStudent(params.uid);
+    // String checkStudentRef = DatabaseReference.checks(params.uid);
     Map<String, dynamic> data = {};
     final checkInMap = params.checkInToMap();
     final checkOutMap = params.checkOutToMap();
@@ -68,7 +69,8 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
   }
 
   Future<void> addStudentAbsence(String studentId) async {
-    String absenseStudentRef = DatabaseReference.absenseStudent;
+    String absenseStudentRef = DatabaseReference.absenseStudent(studentId);
+    final today = DatabaseReference.today;
 
     final List<Object?> snapshot =
         await Managers.realTimeDatabase.get<List<Object?>>(absenseStudentRef);
@@ -79,38 +81,56 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
       currentAbsences = data;
     }
 
-    if (!currentAbsences.contains(studentId)) {
-      currentAbsences.add(studentId);
+    if (!currentAbsences.contains(today)) {
+      currentAbsences.add(today);
       await Managers.realTimeDatabase
           .set(ref: absenseStudentRef, data: currentAbsences);
-      Logger().i('Added $studentId to absences on ' ' in Firebase');
+      Logger().i('Added $today to absences on ' ' in Firebase');
     }
   }
 
   Future<void> removeStudentAbsence(String studentId) async {
-    String absenseStudentRef = DatabaseReference.absenseStudent;
+    final today = DatabaseReference.today;
+    String absenseStudentRef = DatabaseReference.absenseStudent(studentId);
     final List<Object?> snapshot =
         await Managers.realTimeDatabase.get<List<Object?>>(absenseStudentRef);
 
     List<String> currentAbsences =
         snapshot.isNotEmpty ? snapshot.map((e) => e.toString()).toList() : [];
 
-    if (currentAbsences.contains(studentId)) {
-      currentAbsences.remove(studentId);
+    if (currentAbsences.contains(today)) {
+      currentAbsences.remove(today);
       await Managers.realTimeDatabase
           .set(ref: absenseStudentRef, data: currentAbsences);
-      Logger().i('Removed $studentId from absences on ' ' in Firebase');
+      Logger().i('Removed $today from absences on ' ' in Firebase');
     }
   }
 
   @override
   Future<List<String>> getAbsences() async {
-    String absenseStudentRef = DatabaseReference.absenseStudent;
+    String absenseStudentRef = DatabaseReference.absenseStudent('');
     final List<Object?> snapshot =
         await Managers.realTimeDatabase.get<List<Object?>>(absenseStudentRef);
 
     List<String> currentAbsences =
         snapshot.isNotEmpty ? snapshot.map((e) => e.toString()).toList() : [];
     return currentAbsences;
+  }
+
+  @override
+  Future<List<StudentEntity>> fetchChecks() async {
+    String ref = DatabaseReference.checksdetails;
+    final snapshot = await Managers.realTimeDatabase.get(
+      ref,
+    );
+    // if (snapshot.isEmpty) return [];
+    final students = Mapper.mapToListFromFirebaseSnapshot(
+      snapshot: snapshot,
+      fromJson: StudentModel.fromJson,
+      idFieldName: 'uid',
+      containsId: true,
+    );
+
+    return students;
   }
 }
